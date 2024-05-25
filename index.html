@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Profiles</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        display: flex;
+        justify-content: center;
+        padding: 20px;
+      }
+      #root {
+        width: 80%;
+        max-width: 800px;
+        margin: 0 auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .profile {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background-color: #fafafa;
+      }
+      .profile img {
+        border-radius: 50%;
+        margin-right: 20px;
+      }
+      .profile h3 {
+        margin: 0;
+      }
+      input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://www.unpkg.com/react@18.2.0/umd/react.development.js"></script>
+  <script src="https://www.unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    const { useState } = React;
+
+    const UserProfile = ({ user }) => (
+      <div className="profile">
+        <img src={user.avatar} alt={`${user.name}'s avatar`} width="50" />
+        <h3>{user.name}</h3>
+      </div>
+    );
+
+    const App = () => {
+      const [searchTerm, setSearchTerm] = useState('');
+      const [users, setUsers] = useState([
+        { name: 'John Doe', avatar: 'https://via.placeholder.com/50' },
+        { name: 'Jane Smith', avatar: 'https://via.placeholder.com/50' },
+        { name: 'Bob Johnson', avatar: 'https://via.placeholder.com/50' },
+        { name: 'Alice Brown', avatar: 'https://via.placeholder.com/50' },
+        // Add more user objects here
+      ]);
+
+      const filteredUsers = users.filter(user =>
+        user.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+
+      return (
+        <div>
+          <input
+            type="text"
+            placeholder="Search for a profile..."
+            value={searchTerm}
+            onChange={e => setSearchTerm(e.target.value)}
+          />
+          {filteredUsers.map((user, index) => (
+            <UserProfile key={index} user={user} />
+          ))}
+        </div>
+      );
+    };
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</html>
